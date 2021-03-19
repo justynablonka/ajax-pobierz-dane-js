@@ -1,32 +1,48 @@
-let btnGetData = document.getElementById('pobierz-dane');
+$(document).ready(function () {
 
-const getData = () => {
+    $('#pobierz-dane').click(function () {
 
-    fetch('https://akademia108.pl/api/ajax/get-post.php', {
-        mode: 'cors',
-        method: 'GET'
-    })
-        .then(response => response.json()) //gdy dane zostaną pobrane - zamień response na jsona przy pomocy metody json
-        .then(data => {
-            let pUserId = document.createElement('p');
-            let pId = document.createElement('p');
-            let pTitle = document.createElement('p');
-            let pBody = document.createElement('p');
-            let hr = document.createElement('hr');
+        //$.get
+        $.get('https://akademia108.pl/api/ajax/get-post.php')
+            .done(function (data) {
 
-            pUserId.innerText = 'User ID: ' + data.userId;
-            pId.innerText = 'ID: ' + data.id;
-            pTitle.innerText = 'Title: ' + data.title;
-            pBody.innerText = 'Body: ' + data.body;
+                let pUserId = $('<p></p>').text(`User ID: ${data.userId}`);
+                let pId = $('<p></p>').text(`ID: ${data.id}`);
+                let pTitle = $('<p></p>').text(`Title: ${data.title}`);
+                let pBody = $('<p></p>').text(`Body: ${data.body}`);
+                let hr = $('<hr />');
 
-            let divOutput = document.getElementById('wypisz-dane');
+                $('body').append(pUserId);
+                $('body').append(pId);
+                $('body').append(pTitle);
+                $('body').append(pBody);
+                $('body').append(hr);
 
-            divOutput.appendChild(pUserId);
-            divOutput.appendChild(pId);
-            divOutput.appendChild(pTitle);
-            divOutput.appendChild(pBody);
-            divOutput.appendChild(hr);
-        });
-}
+            })
+            .fail(function (error) {
+                console.error(error);
+            })
 
-btnGetData.addEventListener('click', getData);
+
+        //$.getJSON
+        $.getJSON('https://akademia108.pl/api/ajax/get-post.php')
+            .done(function (data) {
+
+                let pUserId = $('<p></p>').text(`User ID: ${data.userId}`);
+                let pId = $('<p></p>').text(`ID: ${data.id}`);
+                let pTitle = $('<p></p>').text(`Title: ${data.title}`);
+                let pBody = $('<p></p>').text(`Body: ${data.body}`);
+                let hr = $('<hr />');
+
+                $('body').append(pUserId);
+                $('body').append(pId);
+                $('body').append(pTitle);
+                $('body').append(pBody);
+                $('body').append(hr);
+            })
+            .fail(function (error) {
+                console.error(error);
+            })
+
+    });
+})
