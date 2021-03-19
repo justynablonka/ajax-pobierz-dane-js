@@ -1,48 +1,32 @@
-$(document).ready(function () {
+let btnGetData = document.getElementById('pobierz-dane');
 
-    $('#pobierz-dane').click(function () {
+const getData = () => {
 
-        //$.get
-        $.get('https://akademia108.pl/api/ajax/get-post.php')
-            .done(function (data) {
+    fetch('https://akademia108.pl/api/ajax/get-post.php', {
+        mode: 'cors',
+        method: 'GET'
+    })
+        .then(response => response.json()) //gdy dane zostaną pobrane - zamień response na jsona przy pomocy metody json
+        .then(data => {
+            let pUserId = document.createElement('p');
+            let pId = document.createElement('p');
+            let pTitle = document.createElement('p');
+            let pBody = document.createElement('p');
+            let hr = document.createElement('hr');
 
-                let pUserId = $('<p></p>').text(`User ID: ${data.userId}`);
-                let pId = $('<p></p>').text(`ID: ${data.id}`);
-                let pTitle = $('<p></p>').text(`Title: ${data.title}`);
-                let pBody = $('<p></p>').text(`Body: ${data.body}`);
-                let hr = $('<hr />');
+            pUserId.innerText = 'User ID: ' + data.userId;
+            pId.innerText = 'ID: ' + data.id;
+            pTitle.innerText = 'Title: ' + data.title;
+            pBody.innerText = 'Body: ' + data.body;
 
-                $('body').append(pUserId);
-                $('body').append(pId);
-                $('body').append(pTitle);
-                $('body').append(pBody);
-                $('body').append(hr);
+            let divOutput = document.getElementById('wypisz-dane');
 
-            })
-            .fail(function (error) {
-                console.error(error);
-            })
+            divOutput.appendChild(pUserId);
+            divOutput.appendChild(pId);
+            divOutput.appendChild(pTitle);
+            divOutput.appendChild(pBody);
+            divOutput.appendChild(hr);
+        });
+}
 
-
-        //$.getJSON
-        $.getJSON('https://akademia108.pl/api/ajax/get-post.php')
-            .done(function (data) {
-
-                let pUserId = $('<p></p>').text(`User ID: ${data.userId}`);
-                let pId = $('<p></p>').text(`ID: ${data.id}`);
-                let pTitle = $('<p></p>').text(`Title: ${data.title}`);
-                let pBody = $('<p></p>').text(`Body: ${data.body}`);
-                let hr = $('<hr />');
-
-                $('body').append(pUserId);
-                $('body').append(pId);
-                $('body').append(pTitle);
-                $('body').append(pBody);
-                $('body').append(hr);
-            })
-            .fail(function (error) {
-                console.error(error);
-            })
-
-    });
-})
+btnGetData.addEventListener('click', getData);
